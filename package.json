@@ -1,0 +1,30 @@
+{
+  "name": "web_services",
+  "version": "1.0.0",
+  "description": "web_proyects",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sweetArizCider/WEB_SERVICES.git"
+  },
+  "keywords": [
+    "web_services",
+    "apis"
+  ],
+  "author": "Carlos Arizpe Hernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sweetArizCider/WEB_SERVICES/issues"
+  },
+  "homepage": "https://github.com/sweetArizCider/WEB_SERVICES#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7"
+  }
+}

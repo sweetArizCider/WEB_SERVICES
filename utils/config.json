@@ -1,0 +1,12 @@
+{
+    "database": {
+        "database": "libros",
+        "username": "root",
+        "password": "inicio",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "server":{
+        "port": 3000
+    }
+}
