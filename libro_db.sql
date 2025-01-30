@@ -16,6 +16,19 @@ CREATE TABLE libro (
     FOREIGN KEY (autorID) REFERENCES autor(id)
 );
 
+CREATE TABLE `user` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(24)  NOT NULL,
+    password VARCHAR(16) NOT NULL,
+    name TINYTEXT NOT NULL,
+    lastName TINYTEXT,
+    secondLastName TINYTEXT,
+    email varchar(128) NOT NULL,
+    enabled BOOLEAN
+);
+
+
+
 
 show tables;
 drop table autor
