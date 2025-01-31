@@ -10,7 +10,7 @@ To: ${emailData.to}
 Subject: ${emailData.subject}
 Date: ${emailData.date}
 Message-ID: ${emailData.messageId}
-        
+
 ${emailData.message}`;
         
         const emailToBase64 = Buffer.from(emailFormat).toString('base64');

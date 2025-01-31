@@ -6,6 +6,7 @@ const libroRegisterRouter = require('./routers/libros/register/libroRouter');
 const autorGetRouter = require('./routers/autores/getAutores/getAutores');
 const autorRegisterRouter = require('./routers/autores/register/autorRouter');
 const userRegisterRouter = require('./routers/users/register/registerUser');
+const userActivationRouter = require('./routers/users/register/activateUser');
 
 app.use(express.json());
 
@@ -14,6 +15,7 @@ app.use("/autor", autorRegisterRouter);
 app.use("/libro", libroRegisterRouter);
 app.use("/libro", libroGetRouter);
 app.use("/user", userRegisterRouter);
+app.use("/user", userActivationRouter);
 
 app.listen(server.port, ()=>{
     console.log("Server initialized on PORT: " + server.port)

@@ -39,7 +39,15 @@ User.init(
         enabled: {
             type: DataTypes.BOOLEAN,
             allowNull: false
-        }
+        },
+        idToken: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'token',
+                key: 'id'
+            }
+        },
     },
     {
         sequelize: mysql.getSequelize,
