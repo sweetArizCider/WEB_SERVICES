@@ -1,3 +1,5 @@
+create database libros;
+
 use libros;
 CREATE TABLE autor (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -16,23 +18,29 @@ CREATE TABLE libro (
     FOREIGN KEY (autorID) REFERENCES autor(id)
 );
 
-CREATE TABLE `user` (
+CREATE TABLE token (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   token VARCHAR(512) not null,
+   used BOOLEAN,
+   expiration DATE);
+
+CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(24)  NOT NULL,
+    username VARCHAR(24) NOT NULL,
     password VARCHAR(16) NOT NULL,
     name TINYTEXT NOT NULL,
     lastName TINYTEXT,
     secondLastName TINYTEXT,
     email varchar(128) NOT NULL,
-    enabled BOOLEAN
+    enabled BOOLEAN,
+    idToken INT not null ,
+    FOREIGN KEY (idToken) REFERENCES token(id)
 );
 
-
-
-
+delete from user;
+select * from user;
 show tables;
-drop table autor
 
+select * from token;
 
-select * from autor;
-select * from libro;
+drop database libros;
