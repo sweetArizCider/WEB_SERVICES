@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+*::before, *::after, *{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+body{
+    background-color: #1d1d1d;
+    color: #ffffff99;
+    font-family: "Karla", sans-serif;
+    font-size: 30px;
+}
+
+#main{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 100wv;
+    height: 100wh;
+}
+
+
+input{
+    background-color: #272727;
+    width: 100%;
+    height: 2rem;
+}
+
+button{
+    background-color: #ffffff99;
+    height: 2rem;
+    font-family: "Karla", sans-serif;
+    color: #1d1d1d;
+    font-weight: 700;
+}
+
+form{
+    width: 100%;
+    height: 100%;
+    margin: 2rem 2rem 2rem 2rem;
+    grid-column: 1;
+    grid-row: 1/-1;
+}
+
+#list{
+    margin: 5rem 5rem 5rem 5rem;
+    grid-column: 2 / -1;
+    grid-row: 1/-1;
+}

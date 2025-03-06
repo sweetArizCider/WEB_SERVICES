@@ -14,12 +14,9 @@ router.post('/datos', async (req, res)=>{
 })
 
 router.delete('/datos', async (req, res)=>{
-    const x = req.body.x;
-    const y = req.body.y;
-    const z = req.body.z;
     try{
-        await Datos.destroy({where: {x: x, y: y, z: z}});
-        
+        await Datos.destroy({where: {id: req.body.id}});
+
     }catch(error){
         res.status(400).send({err: error})
         return

@@ -4,159 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DATOSSSSS</title>
+    <link rel="stylesheet" href="{{ asset('css/datos.css') }}"/>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
-    <section id="datosFormulario"></section>
+    <section id="app">
 
+    </section>
     <script type="text/babel">
-        class DatosFormulario extends React.Component {
-            constructor(props) {
+        class App extends React.Component{
+            constructor(props){
                 super(props);
                 this.state = {
-                    datos: [],
-                    x: '',
-                    y: '',
-                    z: ''
-                };
+                    datos: []
+                }
+                this.getData = this.getData.bind(this);
             }
+            componentDidMount(){
+                this.getData();
+            }
+            async getData(){
+                const url = "http://localhost:3000/datos";
+                try{
+                    const res = await fetch(url);
+                    const data = await res.json();
 
-            // Fetch data from the API
-            componentDidMount() {
-                fetch('http://localhost:3000/datos')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Fetched Data:', data); // Log data for debugging
-                        this.setState({ datos: data });
+                    this.setState({
+                        datos: data
                     })
-                    .catch(error => console.error('Error fetching data:', error));
+
+                    console.log(data);
+                }catch(error){}
             }
 
-            // Handle form submission
-            handleSubmit = (event) => {
+            render(){
+                return(
+                    <article id="main">
+                        <DataForm getData={this.getData}/>
+                        <DataList getData={this.getData} datos={this.state.datos}/>
+                    </article>
+                )
+            }
+
+        }
+        class DataForm extends React.Component{
+            constructor(props){
+                super(props);
+                this.handleSubmit = this.handleSubmit.bind(this);
+
+            }
+
+            async handleSubmit(event){
                 event.preventDefault();
-                const { x, y, z } = this.state;
+                const formData = new FormData(event.target);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
 
-                // Prepare the data to send in the POST request
-                const newData = { x, y, z };
+                const url = "http://localhost:3000/datos";
+                try{
+                    await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                         console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                    this.props.getData();
 
-                // Send a POST request to localhost:3000/datos
-                fetch('http://localhost:3000/datos', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // After successfully posting the data, reload the page to get the updated data
-                    window.location.reload();
-                })
-                .catch(error => console.error('Error posting data:', error));
+                }catch(err){}
             }
 
-            // Handle input changes
-            handleInputChange = (event) => {
-                const { name, value } = event.target;
-                this.setState({ [name]: value });
-            }
 
-            // Handle delete request (with x, y, z as parameters)
-            handleDelete = (x, y, z) => {
-                console.log('Deleting:', x, y, z); // Debugging log for delete request
-                // Send a DELETE request to localhost:3000/datos with x, y, z as parameters
-                fetch(`http://localhost:3000/datos?x=${x}&y=${y}&z=${z}`, {
-                    method: 'DELETE',
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // After successfully deleting the item, update the state
-                    this.setState(prevState => ({
-                        datos: prevState.datos.filter(item => item.x !== x || item.y !== y || item.z !== z)
-                    }));
-                })
-                .catch(error => console.error('Error deleting data:', error));
-            }
 
-            render() {
-                return (
-                    <div>
-                        <form id="formulario" onSubmit={this.handleSubmit}>
-                            <label htmlFor="x">Valor de X (Número):</label>
-                            <input 
-                                type="number" 
-                                id="x" 
-                                name="x" 
-                                value={this.state.x} 
-                                onChange={this.handleInputChange} 
-                                required 
-                            />
+            render(){
+                return(
+                    <article>
+                        <form onSubmit={this.handleSubmit}>
+                            <label for="x">X:</label>
+                            <input type="number" id="x" name="x"/>
 
-                            <label htmlFor="y">Valor de Y (Número):</label>
-                            <input 
-                                type="number" 
-                                id="y" 
-                                name="y" 
-                                value={this.state.y} 
-                                onChange={this.handleInputChange} 
-                                required 
-                            />
+                            <label for="y">Y:</label>
+                            <input type="number" id="y" name="y"/>
 
-                            <label htmlFor="z">Valor de Z (Texto):</label>
-                            <input 
-                                type="text" 
-                                id="z" 
-                                name="z" 
-                                value={this.state.z} 
-                                onChange={this.handleInputChange} 
-                                required 
-                            />
+                            <label for="z">Z:</label>
+                            <input type="text" id="z" name="z"/>
 
-                            <button type="submit">Agregar a la Tabla</button>
+                            <button type="submit" >Submit</button>
                         </form>
-
-                        <h2>Datos en la Tabla</h2>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>X</th>
-                                    <th>Y</th>
-                                    <th>Z</th>
-                                    <th>Acciones</th> {/* Added Actions column for delete */}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.datos && this.state.datos.length > 0 ? (
-                                    this.state.datos.map((dato, index) => (
-                                        <tr key={index}>
-                                            <td>{dato.x}</td>
-                                            <td>{dato.y}</td>
-                                            <td>{dato.z}</td>
-                                            <td>
-                                                <button 
-                                                    onClick={() => this.handleDelete(dato.x, dato.y, dato.z)}
-                                                >
-                                                    Eliminar
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="4">No hay datos disponibles</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                );
+                    </article>
+                )
             }
         }
 
-        ReactDOM.render(<DatosFormulario />, document.getElementById('datosFormulario'));
+        class DataList extends React.Component{
+            constructor(props){
+                super(props);
+                this.handleRemove = this.handleRemove.bind(this);
+            }
+
+            async handleRemove(id){
+                const url="http://localhost:3000/datos"
+                try{
+                    await fetch(url, {
+                        method: "DELETE",
+                        body: JSON.stringify({id}),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    this.props.getData();
+                }catch(error){}
+            }
+
+            render(){
+                return(
+                    <article id="list">
+                        
+                            {this.props.datos.map(value=>(
+                            <ul key={value.id}>
+                                <li>X = {value.x} </li>
+                                <li>Y = {value.y} </li>
+                                <li>Z = {value.z} </li>
+                                <button onClick={()=> this.handleRemove(value.id)}>borrar</button>
+                            </ul>
+                             ))}
+                       
+                    </article>
+                )
+            }
+        }
+        ReactDOM.render(<App/>, document.getElementById('app'));
+
     </script>
 </body>
 </html>
