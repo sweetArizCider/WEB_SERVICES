@@ -19,6 +19,9 @@ class TokenActions {
             expiration: expiration
         });
 
+        console.log('New token created:', newToken);
+        console.log('New token ID:', newToken.id);
+
         return { id: newToken.id, token: token };
     }
 }

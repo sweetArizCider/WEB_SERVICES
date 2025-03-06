@@ -16,7 +16,7 @@ router.get('/activate/:token', async (req, res) =>{
     }
 
     // Check if the token is related to a user
-    const user = await User.findOne({where: {idToken: tokenFound.id}})
+    const user = await User.findOne({where: {token: tokenFound.id}})
 
     if(!user){
         return res.status(404).send({

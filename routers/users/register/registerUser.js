@@ -10,64 +10,67 @@ const TokenActions = require('../../../controller/token/tokenActions');
 let token;
 
 router.post('/register', async (req, res) => {
-        const user_data = req.body;
-        const userValidator = new validator();
-        const validationResult = userValidator.validateUser(user_data);
+    const user_data = req.body;
+    const userValidator = new validator();
+    const validationResult = userValidator.validateUser(user_data);
 
-        if(validationResult.error) {
-            return res.status(400).send(validationResult.error);
-        }
-        // Check if the user already exists
-        const exists = await User.findOne({where: {username: user_data.username}});
+    if (validationResult.error) {
+        return res.status(400).send(validationResult.error);
+    }
 
-        if(exists) {
-            return res.status(409).send({
-                error: `El usuario ${user_data.username} ya existe`
-            });
-        }
+    // Check if the user already exists
+    const exists = await User.findOne({ where: { username: user_data.username } });
 
-        if(user_data.secondLastName === undefined) {
-            user_data.secondLastName = '';
-        }
-
-        // Creating the token, disabling the user and adding the token to the user
-        const tokenActions = new TokenActions();
-        await tokenActions.createToken().then(result =>{
-            user_data.idToken = result.id;
-            user_data.enabled = false;
-            token = result.token;
-            console.log(user_data);
-        }).catch(error => {
-            console.log("Error creating the token" + error);
-            return res.status(400).send("Error creating the token");
+    if (exists) {
+        return res.status(409).send({
+            error: `El usuario ${user_data.username} ya existe`
         });
+    }
 
-        // Creating the user
-        try{
-            await User.create(user_data);
-        }catch(error){
-            console.log("Error creating the user" + error);
-            return res.status(400).send("Error creating the user");
-        }
+    if (user_data.secondLastName === undefined) {
+        user_data.secondLastName = '';
+    }
 
-        // Anable the user sending a mail with gmail API
-        const emailData = {
-            from: "Registration service <pycarizpehdz@gmail.com>",
-            to: `${user_data.name} ${user_data.lastName} ${user_data.secondLastName} <${user_data.email}>`,
-            subject: "User Activation",
-            date: (new Date()).toUTCString(),
-            messageId: "<activationUTT@gmail.com>",
-            message: `Hello ${user_data.name} ${user_data.lastName}!\nYour username is: ${user_data.username}. To activate your account click here: ${tokenURL}${token}`
-        }
+    // Creating the token, disabling the user and adding the token to the user
+    const tokenActions = new TokenActions();
+    try {
+        const result = await tokenActions.createToken();
+        user_data.token = result.id; // Ensure this matches your database column name
+        user_data.enabled = false;
+        token = result.token;
+        console.log('Token created:', result);
+        console.log('User data after token creation:', user_data);
+    } catch (error) {
+        console.log("Error creating the token: " + error);
+        return res.status(400).send("Error creating the token");
+    }
 
-        const emailSent = await gmail.sendEmail(emailData);
-        if(!emailSent){
-            return res.status(400).send("Error sending the email");
-        }
-        res.status(200).send({
-            ok: true,
-            message: `User ${user_data.username} created successfully.An email has been sent to ${user_data.email}`
-        })
+    // Creating the user
+    try {
+        await User.create(user_data);
+    } catch (error) {
+        console.log("Error creating the user: " + error);
+        return res.status(400).send("Error creating the user");
+    }
+
+    // Enable the user by sending an email with Gmail API
+    const emailData = {
+        from: "Registration service <pycarizpehdz@gmail.com>",
+        to: `${user_data.name} ${user_data.lastName} ${user_data.secondLastName} <${user_data.email}>`,
+        subject: "User Activation",
+        date: (new Date()).toUTCString(),
+        messageId: "<activationUTT@gmail.com>",
+        message: `Hello ${user_data.name} ${user_data.lastName}!\nYour username is: ${user_data.username}. To activate your account click here: ${tokenURL}${token}`
+    }
+
+    const emailSent = await gmail.sendEmail(emailData);
+    if (!emailSent) {
+        return res.status(400).send("Error sending the email");
+    }
+    res.status(200).send({
+        ok: true,
+        message: `User ${user_data.username} created successfully. An email has been sent to ${user_data.email}`
+    });
 });
 
 module.exports = router;

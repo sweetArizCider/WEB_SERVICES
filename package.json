@@ -4,7 +4,7 @@
   "description": "web_proyects",
   "main": "server.js",
   "scripts": {
-    "test": "test"
+    "start": "node --watch server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/sweetArizCider/WEB_SERVICES#readme",
   "dependencies": {
     "axios": "^1.7.9",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "joi": "^17.13.3",
     "mysql2": "^3.12.0",

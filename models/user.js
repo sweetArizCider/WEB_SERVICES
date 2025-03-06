@@ -40,7 +40,7 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
-        idToken: {
+        token: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
