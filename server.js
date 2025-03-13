@@ -2,8 +2,6 @@ const express = require('express');
 const { server } = require('./utils/config.json');
 const cors = require('cors');
 const app = express();
-
-
 const libroGetRouter = require('./routers/libros/getLibros/getLibros');
 const libroRegisterRouter = require('./routers/libros/register/libroRouter');
 const autorGetRouter = require('./routers/autores/getAutores/getAutores');
@@ -11,6 +9,8 @@ const autorRegisterRouter = require('./routers/autores/register/autorRouter');
 const userRegisterRouter = require('./routers/users/register/registerUser');
 const userActivationRouter = require('./routers/users/register/activateUser');
 const userLoginRouter = require('./routers/users/login/loginUser')
+
+
 // CORS configuration
 const corsOptions = {
     origin: '*',
@@ -34,6 +34,9 @@ app.use("/user", userLoginRouter)
 
 const datosRouter = require('./routers/datosRouter');
 app.use("/", datosRouter);
+
+const examen2Router = require('./routers/examen2Router');
+app.use("/", examen2Router);
 
 app.listen(server.port, () => {
     console.log("Server initialized on PORT: " + server.port);

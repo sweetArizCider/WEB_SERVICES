@@ -10,3 +10,4 @@ use App\Http\Controllers\FormController;
 Route::get('/create-user', [FormController::class, 'showCreateUserForm']);
 Route::get('/login', [FormController::class, 'showLoginForm']);
 Route::get('/datos', [FormController::class, 'mostrarDatosPagina']);
+Route::get('/examen', [FormController::class, 'mostrarExamen2']);

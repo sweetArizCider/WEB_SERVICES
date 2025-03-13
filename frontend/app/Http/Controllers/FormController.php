@@ -18,4 +18,8 @@ class FormController extends Controller
         return view('datos');
     }
 
+    public function mostrarExamen2(){
+        return view('examen2');
+    }
+
 }
