@@ -14,8 +14,8 @@ router.post('/register', async(req, res)=>{
     };
 
     try{
-        await Autor.create(autor_data);
-        res.status(201).send({ok: true});
+        const newAutor = await Autor.create(autor_data);
+        res.status(201).send({ok: newAutor});
     } catch(error){
         return res.status(400).send(error);
     };

@@ -1,34 +1,42 @@
 const { DataTypes, Model } = require('sequelize');
-const MySQL = require('../utils/database')
+const MySQL = require('../utils/database');
+
 class Autor extends Model {}
 
 Autor.init(
     {
-        id:{
+        id: {
             type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        license: {
+            type: DataTypes.STRING(12),
             primaryKey: true,
-            autoIncrement: true
+            allowNull: false,
         },
-        nombre:{
-            type: DataTypes.STRING,
-            allowNull: false
+        name: {
+            type: DataTypes.TEXT,
+            allowNull: false,
         },
-        apellidoPaterno:{
-            type: DataTypes.STRING,
-            allowNull: false
+        lastName: {
+            type: DataTypes.TEXT,
+            allowNull: true,
         },
-        apellidoMaterno:{
-            type: DataTypes.STRING,
-            allowNull: false
-        }
+        secondLastName: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
+        year: {
+            type: DataTypes.SMALLINT,
+            allowNull: true,
+        },
     },
     {
         sequelize: MySQL.getSequelize,
         timestamps: false,
         tableName: 'autor',
-        modelName: 'Autor'
+        modelName: 'Autor',
     }
 );
 
-module.exports = Autor
-
+module.exports = Autor;

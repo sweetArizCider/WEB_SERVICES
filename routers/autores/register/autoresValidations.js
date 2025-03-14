@@ -1,21 +1,31 @@
-const Joi = require('joi')
+const Joi = require('joi');
 
-class AutoresValidations{
-
-    validateAutorRegister(autor_data){
+class AutoresValidations {
+    validateAutorRegister(autor_data) {
         const schema = Joi.object({
-            nombre: Joi.string()
-                .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ]{3,15}$')) 
+            id: Joi.number()
+                .integer()
+                .optional(),
+
+            license: Joi.string()
+                .max(12)
                 .required(),
-            apellidoPaterno: Joi.string()
-                .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ]{3,15}$')) 
+
+            name: Joi.string()
                 .required(),
-            apellidoMaterno: Joi.string()
-                .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ]{3,15}$')) 
-                .required()
+
+            lastName: Joi.string()
+                .optional(),
+
+            secondLastName: Joi.string()
+                .optional(),
+
+            year: Joi.number()
+                .integer()
+                .optional()
         });
 
-        return schema.validate(autor_data)
+        return schema.validate(autor_data);
     }
 }
 

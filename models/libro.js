@@ -5,37 +5,66 @@ class Libro extends Model {}
 
 Libro.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
+      autoIncrement: true
+    },
     ISBN: {
-      type: DataTypes.CHAR(13),
+      type: DataTypes.STRING(16),
       allowNull: false,
       primaryKey: true,
     },
-    titulo: {
-      type: DataTypes.STRING(255),
+    title: {
+      type: DataTypes.STRING(512),
       allowNull: false,
     },
-    autorID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    autor_license: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
       references: {
-        model: 'autor',  
-        key: 'id',
+        model: 'autor',
+        key: 'license',
       },
     },
-    numPag: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     editorial: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.TEXT('tiny'),
+      allowNull: true,
+    },
+    pages: {
+      type: DataTypes.SMALLINT,
+      allowNull: true,
+    },
+    year: {
+      type: DataTypes.SMALLINT,
       allowNull: false,
     },
+    genre: {
+      type: DataTypes.TEXT('tiny'),
+      allowNull: true,
+    },
+    language: {
+      type: DataTypes.TEXT('tiny'),
+      allowNull: false,
+    },
+    format: {
+      type: DataTypes.TEXT('tiny'),
+      allowNull: true,
+    },
+    sinopsis: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    }
   },
   {
     sequelize: MySQL.getSequelize,
-    timestamps: false,            
-    modelName: 'Libro',            
-    tableName: 'libro', 
+    timestamps: false,
+    modelName: 'Libro',
+    tableName: 'libro',
   }
 );
 

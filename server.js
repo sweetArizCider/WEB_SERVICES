@@ -10,7 +10,6 @@ const userRegisterRouter = require('./routers/users/register/registerUser');
 const userActivationRouter = require('./routers/users/register/activateUser');
 const userLoginRouter = require('./routers/users/login/loginUser')
 
-
 // CORS configuration
 const corsOptions = {
     origin: '*',
@@ -23,6 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/autor", autorGetRouter);
 app.use("/autor", autorRegisterRouter);
