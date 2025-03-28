@@ -6,7 +6,6 @@
         "dialect": "postgres"
     },
     "server":{
-        "port": 3000,
         "corsOptions": {
             "origin": "*",
             "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -16,7 +15,7 @@
         }
     },
     "dev":{
-        "activateUrl": "http://localhost:3001/users/activate/"
+        "activateUrl": "https://libreria-y5ka.onrender.com/users/activate/"
     }
 
 }
