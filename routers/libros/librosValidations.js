@@ -7,10 +7,13 @@ class LibrosValidations {
                 .integer()
                 .optional(),
 
-            ISBN: Joi.string()
+            isbn: Joi.string()
                 .max(16)
                 .required(),
-
+            img: Joi.string()
+                .max(512)
+                .optional(),
+                
             title: Joi.string()
                 .max(512)
                 .required(),

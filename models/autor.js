@@ -18,11 +18,11 @@ Autor.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        lastName: {
+        lastname: {
             type: DataTypes.TEXT,
             allowNull: true,
         },
-        secondLastName: {
+        secondlastname: {
             type: DataTypes.TEXT,
             allowNull: true,
         },

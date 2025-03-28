@@ -10,10 +10,14 @@ Libro.init(
       allowNull: true, 
       autoIncrement: true
     },
-    ISBN: {
+    isbn: {
       type: DataTypes.STRING(16),
       allowNull: false,
       primaryKey: true,
+    },
+    img:{
+      type: DataTypes.STRING(512),
+      allowNull: true,
     },
     title: {
       type: DataTypes.STRING(512),

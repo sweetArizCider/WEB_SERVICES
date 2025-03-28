@@ -18,11 +18,11 @@ class UserValidator {
             .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ\\s]{1,256}$'))
             .required(),
 
-            lastName: joi.string()
+            lastname: joi.string()
             .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ\\s]{1,256}$'))
             .required(),
             
-            secondLastName: joi.string()
+            secondlastname: joi.string()
             .pattern(new RegExp('^[áéíóúÁÉÍÓÚa-zA-ZÑñ\\s]{1,256}$')),
             
             email: joi.string()
@@ -36,5 +36,5 @@ class UserValidator {
         return schema.validate(user_data);
     }
 }
-
+ 
 module.exports = UserValidator;

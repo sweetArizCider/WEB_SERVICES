@@ -5,7 +5,12 @@ class Database {
     constructor() {
         this.sequelize = new Sequelize(config.database, config.username, config.password, {
             host: config.host,
-            dialect: config.dialect
+            port: config.port,
+            ssl: config.ssl,
+            dialect: config.dialect,
+            dialectOptions: {
+                ssl: config.ssl
+            }
         });
     }
 

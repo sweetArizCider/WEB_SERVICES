@@ -1,6 +1,6 @@
 const express = require("express");
-const Autor = require("../../../models/autor.js");
-const AutoresValidations = require("./autoresValidations");
+const Autor = require("../../models/autor.js");
+const AutoresValidations = require("./autoresValidations.js");
 const router = express.Router();
 
 router.post('/register', async(req, res)=>{
@@ -20,5 +20,15 @@ router.post('/register', async(req, res)=>{
         return res.status(400).send(error);
     };
 });
+
+router.get('/get', async(req,res)=>{
+    try{
+        const autores = await Autor.findAll();
+        res.status(200).send(autores);
+    }catch(error){
+        return res.status(400).send("Error getting the authors");
+    }
+});
+
 
 module.exports = router;

@@ -24,11 +24,11 @@ User.init(
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        lastName: {
+        lastname: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        secondLastName: {
+        secondlastname: {
             type: DataTypes.STRING(100),
             allowNull: true
         },
