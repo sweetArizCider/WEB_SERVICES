@@ -1,6 +1,7 @@
 const express = require("express");
 const Libro = require("../../models/libro");
 const LibrosValidations = require("./librosValidations");
+const DeepSeek = require("../../controller/AI/DeepSeek");
 const router = express.Router();
 
 router.post("/", async(req, res)=>{
@@ -20,35 +21,15 @@ router.post("/", async(req, res)=>{
     }
 })
 
-router.get('/', async(req,res)=>{
-    try{
-        const libros = await Libro.findAll();
-        res.status(200).send(libros);
-    }catch(error){
-        return res.status(500).send(error);
-    }
-});
-
-router.get('/?isbn&autor', async(req, res)=>{
-    const isbn = req.query.isbn;
-    const autor = req.query.autor;
-    if(isbn){
-        try{
-            const libro = await Libro.findOne({where: {isbn: isbn}});
-            if(!libro){
-                return res.status(404).json({message: "Libro not found"});
-            }
-            return res.status(200).send(libro);
-        }catch(error){return res.status(400).json(error);}
-    }
-    else if(autor){
-        try{
-            const libros = await Libro.findAll({where: {license: autor}});
-            if(libros.length == 0){
-                return res.status(404).json({message: "Please search for author license... Or that author does not have any books"});
-            }
-        }catch(error){return res.status(400).json(error);}
-    }
+router.get('/', async(req, res)=>{
+    // There's 2 query params 'isbn' and 'autor_license' ?isbn=123&autor_license=123
+    const { isbn , autor_license } = req.query;
+        const query = {};
+        if(isbn) query.isbn = isbn;
+        if(autor_license) query.autor_license = autor_license;
+        Libro.findAll({where: query})
+        .then(libros => res.status(200).json(libros))
+        .catch(error => res.status(500).json(error));
 });
 
 router.delete('/:ISBN', async(req, res)=>{
@@ -64,4 +45,16 @@ router.delete('/:ISBN', async(req, res)=>{
     }
 });
 
+router.post('/AI', async(req, res)=> {
+    const deepseek = new DeepSeek();
+    const libroPrompt = await deepseek.createBook();
+    const libroJson = deepseek.cleanAIResponse(libroPrompt);
+
+    if(!libroJson){
+        return res.status(500).send({error: "Error creating book"});
+    }
+
+    return res.status(200).send({ok: libroJson});
+
+})
 module.exports = router;
