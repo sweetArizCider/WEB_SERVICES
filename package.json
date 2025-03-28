@@ -4,7 +4,8 @@
   "description": "web_proyects",
   "main": "server.js",
   "scripts": {
-    "start": "node --watch server.js"
+    "start": "node --watch server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "@sequelize/postgres": "^7.0.0-alpha.46",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "joi": "^17.13.3",
     "mysql2": "^3.12.0",

@@ -1,5 +1,7 @@
-const express = require('express');
+require('dotenv').config();
 const { server } = require('./utils/config.json');
+const PORT = process.env.PORT;
+const express = require('express');
 const cors = require('cors');
 const app = express();
 
@@ -11,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 const libroRouter = require('./routers/libros/libroRouter');
 app.use("/libros", libroRouter);
-
+ 
 const autorRouter = require('./routers/autores/autorRouter');
 app.use("/autores", autorRouter);
 
@@ -28,6 +30,6 @@ const examen2Router = require('./routers/examen2Router');
 app.use("/", examen2Router);
 */ 
 
-app.listen(server.port, () => {
-    console.log("Server initialized on PORT: " + server.port);
+app.listen(PORT, () => {
+    console.log("Server initialized on PORT: " + PORT);
 });   

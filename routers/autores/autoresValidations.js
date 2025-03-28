@@ -14,10 +14,10 @@ class AutoresValidations {
             name: Joi.string()
                 .required(),
 
-            lastName: Joi.string()
+            lastname: Joi.string()
                 .optional(),
 
-            secondLastName: Joi.string()
+            secondlastname: Joi.string()
                 .optional(),
 
             year: Joi.number()

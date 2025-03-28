@@ -1,5 +1,6 @@
 const axios = require('axios');
-const { gmailAPI } = require('../../utils/config.json');
+const GMAIL_API_KEY = process.env.GMAIL_API_KEY;
+const GMAIL_ACCESS_TOKEN = process.env.GMAIL_ACCESS_TOKEN;
 
 class GmailActions{
 
@@ -16,10 +17,10 @@ ${emailData.message}`;
         const emailToBase64 = Buffer.from(emailFormat).toString('base64');
         
         try{
-            await axios.post(`https://gmail.googleapis.com/gmail/v1/users/me/messages/send?key=${gmailAPI.API_KEY}`, {raw: emailToBase64},
+            await axios.post(`https://gmail.googleapis.com/gmail/v1/users/me/messages/send?key=${GMAIL_API_KEY}`, {raw: emailToBase64},
             {
                 headers: {
-                    Authorization: `Bearer ${gmailAPI.ACCESS_TOKEN}`,
+                    Authorization: `Bearer ${GMAIL_ACCESS_TOKEN}`,
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 }

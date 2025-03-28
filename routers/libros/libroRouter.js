@@ -29,16 +29,25 @@ router.get('/', async(req,res)=>{
     }
 });
 
-router.get('/:ISBN', async(req, res)=>{
-    try{
-        const libro = await Libro.findOne({where: {isbn: req.params.ISBN}});
-        if(!libro){
-            return res.status(404).send({message: "Libro not found"});
-        }
-        return res.status(200).send(libro);
-
-    }catch(error){
-        return res.status(500).json(error);
+router.get('/?isbn&autor', async(req, res)=>{
+    const isbn = req.query.isbn;
+    const autor = req.query.autor;
+    if(isbn){
+        try{
+            const libro = await Libro.findOne({where: {isbn: isbn}});
+            if(!libro){
+                return res.status(404).json({message: "Libro not found"});
+            }
+            return res.status(200).send(libro);
+        }catch(error){return res.status(400).json(error);}
+    }
+    else if(autor){
+        try{
+            const libros = await Libro.findAll({where: {license: autor}});
+            if(libros.length == 0){
+                return res.status(404).json({message: "Please search for author license... Or that author does not have any books"});
+            }
+        }catch(error){return res.status(400).json(error);}
     }
 });
 

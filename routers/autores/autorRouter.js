@@ -3,7 +3,7 @@ const Autor = require("../../models/autor.js");
 const AutoresValidations = require("./autoresValidations.js");
 const router = express.Router();
 
-router.post('/register', async(req, res)=>{
+router.post('/', async(req, res)=>{
     const autor_data = req.body;
     const validator = new AutoresValidations();
 
@@ -21,7 +21,7 @@ router.post('/register', async(req, res)=>{
     };
 });
 
-router.get('/get', async(req,res)=>{
+router.get('/', async(req,res)=>{
     try{
         const autores = await Autor.findAll();
         res.status(200).send(autores);

@@ -1,5 +1,6 @@
 const express = require('express');
 const { dev } = require('../../utils/config.json');
+const DEV_SECRET = process.env.DEV_SECRET;
 const router = express.Router();
 
 const User = require('../../models/user');
@@ -115,7 +116,7 @@ router.get('/activate/:token', async (req, res) =>{
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const secret = dev.secret;
+    const secret = DEV_SECRET;
 
     try {
         const user = await User.findOne({ where: { username } });

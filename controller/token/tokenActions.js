@@ -1,9 +1,9 @@
 const Token = require('../../models/token');
-const { dev } = require('../../utils/config.json');
+const SECRET = process.env.SECRET;
 
 class TokenActions {
     constructor() {
-        this.secret = dev.secret;
+        this.secret = SECRET;
     }
 
     async createToken() {

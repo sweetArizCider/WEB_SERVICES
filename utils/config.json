@@ -1,0 +1,22 @@
+{
+    "database": {
+        "port": 5432,
+        "ssl": true,
+        "clientMinMessages": "notice",
+        "dialect": "postgres"
+    },
+    "server":{
+        "port": 3000,
+        "corsOptions": {
+            "origin": "*",
+            "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+            "preflightContinue": false,
+            "optionsSuccessStatus": 204,
+            "allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With"
+        }
+    },
+    "dev":{
+        "activateUrl": "http://localhost:3001/users/activate/"
+    }
+
+}
