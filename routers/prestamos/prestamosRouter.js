@@ -21,7 +21,10 @@ router.post('/', async (req, res)=>{
         userLoans.forEach(loan => {
             PrestamosMultas.findOne({where: {id_prestamos: loan.id_prestamos}})
             .then(multa => {
-                if(!multa.pagado){
+                if(!multa){
+                    
+                }
+                else if(!multa.pagado){
                     return res.status(400).send({message: "You have an unpaid fine"});
                 }
             })
@@ -46,6 +49,50 @@ router.post('/', async (req, res)=>{
     })
 })
 
-router.post('/:isbn', async(req,res)=> {})
+router.post('/:isbn', async(req,res)=> {
+    const { isbn } = req.params;
+
+    Prestamos.findOne({where: {libro_isbn: isbn, entregado: false}})
+    .then(loan => {
+        if(!loan){
+            return res.status(404).send({message: "Loan not found"});
+        }
+
+        Prestamos.update({entregado: true}, {where: {id_prestamos: loan.id_prestamos}})
+        .then(() => {
+            return res.status(200).send({message: "Book returned"});
+        })
+        .catch(error => {
+            return res.status(500).send({errorReturning: error});
+        })
+    })
+    .catch(error => {
+        return res.status(500).send({errorFindingLoan: error});
+    })
+})
+
+router.get('/multas', async (req, res) => {
+        const { username } = req.query;
+        const query = {};
+        if (username) {
+            const user = await User.findOne({ where: { username: username } });
+            if(!user){
+                return res.status(404).send({message: "User not found"});
+            }
+            query.user_id = user.id;
+        }
+        const prestamos = await Prestamos.findAll({ where: query });
+        if (!prestamos || prestamos.length === 0) {
+            return res.status(404).send({ message: "No loans found" });
+        }
+        const multas = await Promise.all(
+            prestamos.map(async (loan) => {
+                const multa = await PrestamosMultas.findOne({ where: { id_prestamos: loan.id_prestamos } });
+                return multa || null;
+            })
+        );
+        const filteredMultas = multas.filter((multa) => multa !== null);
+        return res.status(200).json(filteredMultas);
+});
 
 module.exports = router;

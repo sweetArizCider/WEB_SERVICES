@@ -11,7 +11,7 @@ PrestamosMultas.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    id_presamos: {
+    id_prestamos: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
