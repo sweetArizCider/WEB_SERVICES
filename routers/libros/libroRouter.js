@@ -47,14 +47,23 @@ router.delete('/:ISBN', async(req, res)=>{
 
 router.post('/AI', async(req, res)=> {
     const deepseek = new DeepSeek();
-    const libroPrompt = await deepseek.createBook();
-    const libroJson = deepseek.cleanAIResponse(libroPrompt);
 
-    if(!libroJson){
-        return res.status(500).send({error: "Error creating book"});
-    }
+    deepseek.createBook()
+    .then(book=> deepseek.cleanAIResponse(book))
+    .then(bookJson => {
+        if(!bookJson){
+            return res.status(500).send({error: "Error creating book"});
+        }
+        const validator = new LibrosValidations();
+        const validatorResult = validator.validateLibro(bookJson);
+    
+        if(validatorResult.error){
+            return res.status(500).json({validatorError: validatorResult.error})
+        }
 
-    return res.status(200).send({ok: libroJson});
-
+        Libro.create(bookJson)
+        .then(libro => res.status(201).json({ok: libro}))
+        .catch(error => res.status(500).json({error: error}))
+    })
 })
 module.exports = router;
