@@ -20,6 +20,9 @@ app.use("/autores", autorRouter);
 const userRouter = require('./routers/users/userRouter');
 app.use("/users", userRouter); 
 
+const imgRouter = require('./routers/img/imgRouter');
+app.use("/img", imgRouter);
+
 /*
 PRACTICAS Y EXAMENES
 
