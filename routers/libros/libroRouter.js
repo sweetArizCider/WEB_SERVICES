@@ -5,12 +5,16 @@ const DeepSeek = require("../../controller/AI/DeepSeek");
 const router = express.Router();
 
 router.post("/", async(req, res)=>{
-    const libro_data = req.body;
+    let libro_data = req.body;
     const validator = new LibrosValidations();
 
     const validatorResult = validator.validateLibro(libro_data);
     if(validatorResult.error){
         return res.status(400).send(validatorResult.error);
+    }
+
+    if(!libro_data.img){
+        libro_data.img = "https://libreria-y5ka.onrender.com/img/defaultPortrait.webp";
     }
 
     try{

@@ -23,6 +23,9 @@ app.use("/users", userRouter);
 const imgRouter = require('./routers/img/imgRouter');
 app.use("/img", imgRouter);
 
+const prestamosRouter = require('./routers/prestamos/prestamosRouter');
+app.use("/prestamos", prestamosRouter);
+
 /*
 PRACTICAS Y EXAMENES
 
