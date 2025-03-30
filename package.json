@@ -22,8 +22,11 @@
   },
   "homepage": "https://github.com/sweetArizCider/WEB_SERVICES#readme",
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@paypal/paypal-server-sdk": "^1.0.0",
     "@sequelize/postgres": "^7.0.0-alpha.46",
     "axios": "^1.7.9",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

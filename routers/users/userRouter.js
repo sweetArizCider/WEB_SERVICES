@@ -16,6 +16,7 @@ const gmail = new GmailActions();
 
 router.post('/register', async (req, res) => {
     const user_data = req.body;
+    user_data.enabled = false;
     const userValidator = new validator();
     const validationResult = userValidator.validateUser(user_data);
 
@@ -40,10 +41,7 @@ router.post('/register', async (req, res) => {
     try {
         const result = await tokenActions.createToken();
         user_data.token = result.id; 
-        user_data.enabled = false;
         token = result.token;
-        console.log('Token created:', result);
-        console.log('User data after token creation:', user_data);
     } catch (error) {
         console.log("Error creating the token: " + error);
         return res.status(400).send("Error creating the token");

@@ -27,6 +27,10 @@ PrestamosMultas.init(
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
+    pagado: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     sequelize: MySQL.getSequelize,

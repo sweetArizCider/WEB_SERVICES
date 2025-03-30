@@ -4,11 +4,13 @@ const PORT = process.env.PORT;
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const bodyParser = require('body-parser');
 
 // Middleware
 app.use(cors(server.corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Routes
 const libroRouter = require('./routers/libros/libroRouter');
@@ -25,6 +27,12 @@ app.use("/img", imgRouter);
 
 const prestamosRouter = require('./routers/prestamos/prestamosRouter');
 app.use("/prestamos", prestamosRouter);
+
+const multasRouter = require('./routers/multas/multasRouter');
+app.use("/multas", multasRouter);
+
+const paypalRouter = require('./routers/paypal/paypalRouter');
+app.use("/paypal", paypalRouter);
 
 /*
 PRACTICAS Y EXAMENES
