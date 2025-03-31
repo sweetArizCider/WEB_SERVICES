@@ -2,6 +2,7 @@ const express = require("express");
 const Libro = require("../../models/libro");
 const LibrosValidations = require("./librosValidations");
 const DeepSeek = require("../../controller/AI/DeepSeek");
+const Autor = require("../../models/autor");
 const router = express.Router();
 
 router.post("/", async(req, res)=>{
@@ -27,13 +28,31 @@ router.post("/", async(req, res)=>{
 
 router.get('/', async(req, res)=>{
     // There's 2 query params 'isbn' and 'autor_license' ?isbn=123&autor_license=123
-    const { isbn , autor_license } = req.query;
-        const query = {};
-        if(isbn) query.isbn = isbn;
-        if(autor_license) query.autor_license = autor_license;
-        Libro.findAll({where: query})
-        .then(libros => res.status(200).json(libros))
-        .catch(error => res.status(500).json(error));
+    const { isbn, autor_license } = req.query;
+    const query = {};
+    if (isbn) query.isbn = isbn;
+    if (autor_license) query.autor_license = autor_license;
+    
+    try {
+        const libros = await Libro.findAll({ where: query });
+
+        const librosWithAuthors = await Promise.all(
+            libros.map(async (libro) => {
+                const autor = await Autor.findOne({ where: { license: libro.autor_license } });
+                if (autor) {
+                    const authorName = `${autor.name} ${autor.lastname || ''} ${autor.secondlastname || ''}`.trim();
+                    libro.dataValues.author = authorName;
+                }
+                return libro;
+            })
+        );
+    
+        return res.status(200).json(librosWithAuthors);
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+
 });
 
 router.delete('/:ISBN', async(req, res)=>{
