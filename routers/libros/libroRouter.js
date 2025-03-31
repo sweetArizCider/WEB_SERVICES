@@ -40,7 +40,7 @@ router.get('/', async(req, res)=>{
             libros.map(async (libro) => {
                 const autor = await Autor.findOne({ where: { license: libro.autor_license } });
                 if (autor) {
-                    const authorName = `${autor.name} ${autor.lastname || ''} ${autor.secondlastname || ''}`.trim();
+                    const authorName = `${autor.name} ${autor.lastname}`.trim();
                     libro.dataValues.author = authorName;
                 }
                 return libro;
