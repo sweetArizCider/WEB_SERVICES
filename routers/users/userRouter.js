@@ -138,7 +138,9 @@ router.post('/login', async (req, res) => {
         res.status(200).send({
             ok: true,
             message: 'Login successful',
-            cookie: 'ARZID' + newCookie
+            cookie: 'ARZID' + newCookie,
+            secure: true,
+            sameSite: 'None'
         });     
     } catch (error) {
         console.log('Error during login:', error);
