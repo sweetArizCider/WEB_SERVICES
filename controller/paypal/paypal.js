@@ -12,7 +12,7 @@ const {
     BASE_URL
 } = process.env;
 
-frontendURL = "http://localhost:5173";
+frontendURL = "https://book-house-dun.vercel.app/";
 
 const client = new Client({
     clientCredentialsAuthCredentials:{
