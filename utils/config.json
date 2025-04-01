@@ -7,7 +7,7 @@
     },
     "server":{
         "corsOptions": {
-            "origin": "http://localhost:5173",
+            "origin":   ["http://localhost:5173", "book-house-dun.vercel.app"],
             "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
             "preflightContinue": false,
             "optionsSuccessStatus": 204,
