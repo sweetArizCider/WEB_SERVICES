@@ -3,6 +3,8 @@ const router = express.Router();
 const PrestamosMultas = require('../../models/prestamos_multas')
 const  { createOrder, captureOrder }  = require('../../controller/paypal/paypal');
 const { BASE_URL } = process.env;
+const Ordenes = require('../../models/ordenes')
+
 
 // pagar multa
 router.post("/pay/:username", async (req, res) => {
@@ -13,14 +15,33 @@ router.post("/pay/:username", async (req, res) => {
         if (!approvalLink) {
         return res.status(500).json({ message: "Failed to retrieve approval link from PayPal." })
         }
+        const orden = await Ordenes.create({approvallink: approvalLink, orderid: jsonResponse.id, username})
         res.status(200).json({
         approvalLink,
         orderID: jsonResponse.id,
+        order: orden
         })
     }catch(error){
         console.error(error)
         res.status(500).json({ message: "Error creating PayPal order", error: error.message })
     }
+})
+
+// obtener ultima orden de un usuario
+router.get("/:username/orders", async (req, res) => {
+
+    const { username } = req.params
+    try {
+        const orden = await Ordenes.findOne({where: {username}, order: [['created_at', 'DESC']]})
+        if (!orden) {
+            return res.status(404).json({ message: "No orders found for this user" })
+        }
+        return res.status(200).json(orden)
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ message: "Error fetching orders", error: error.message })
+    }
+
 })
 
 // confirmar pago de multa
