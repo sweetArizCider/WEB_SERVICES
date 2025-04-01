@@ -12,6 +12,8 @@ const {
     BASE_URL
 } = process.env;
 
+frontendURL = "http://localhost:5173";
+
 const client = new Client({
     clientCredentialsAuthCredentials:{
         oAuthClientId: PAYPAL_CLIENT_ID,
@@ -47,8 +49,8 @@ const createOrder = async (username) => {
             body: {
                 intent: "CAPTURE",
                 application_context: {
-                    return_url: `${BASE_URL}/success?username=${username}`,
-                    cancel_url: `${BASE_URL}/cancel`,
+                    return_url: returnUrl || `${BASE_URL}/multas`,
+                    cancel_url: `${frontendURL}/multas`,
                     user_action: "PAY_NOW",
                     brand_name: "Library Fine System",
                 },

@@ -7,8 +7,9 @@ const { BASE_URL } = process.env;
 // pagar multa
 router.post("/pay/:username", async (req, res) => {
     const { username } = req.params
+    const { return_url } = req.body;
     try {
-        const { jsonResponse } = await createOrder(username)
+        const { jsonResponse } = await createOrder(username, return_url)
         const approvalLink = jsonResponse.links.find((link) => link.rel === "approve")?.href
         if (!approvalLink) {
         return res.status(500).json({ message: "Failed to retrieve approval link from PayPal." })
