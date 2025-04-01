@@ -20,6 +20,7 @@ const corsOptions = {
     preflightContinue: server.corsOptions.preflightContinue,
     optionsSuccessStatus: server.corsOptions.optionsSuccessStatus,
     allowedHeaders: server.corsOptions.allowedHeaders,
+    credentials: true
 };
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
