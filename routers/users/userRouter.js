@@ -147,4 +147,14 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get('/auth/check', async (req, res) => {
+    const { ARZID } = req.cookies; 
+
+    if (ARZID) {
+        return res.status(200).send({ authenticated: true });
+    } else {
+        return res.status(401).send({ authenticated: false });
+    }
+});
+
 module.exports = router;
