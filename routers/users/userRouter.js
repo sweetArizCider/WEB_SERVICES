@@ -133,14 +133,16 @@ router.post('/login', async (req, res) => {
 
         const newCookie = Buffer.from(secret, Date.now(), 'utf8').toString('base64');
 
-        res.cookie('ARZID', `${newCookie}`, { expires: new Date(Date.now() + 900000), httpOnly: true })
+        res.cookie('ARZID', `${newCookie}`, { 
+            expires: new Date(Date.now() + 900000),
+                httpOnly: true,
+                secure: false,
+                sameSite: 'None'
+            })
 
         res.status(200).send({
             ok: true,
             message: 'Login successful',
-            cookie: 'ARZID' + newCookie,
-            secure: false,
-            sameSite: 'None'
         });     
     } catch (error) {
         console.log('Error during login:', error);
