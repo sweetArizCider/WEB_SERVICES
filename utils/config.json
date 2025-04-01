@@ -11,8 +11,7 @@
             "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
             "preflightContinue": false,
             "optionsSuccessStatus": 204,
-            "allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With, credentials",
-            "credentials": true
+            "allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With"
         }
     },
     "dev":{

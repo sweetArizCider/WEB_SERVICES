@@ -133,12 +133,12 @@ router.post('/login', async (req, res) => {
 
         const newCookie = Buffer.from(secret, Date.now(), 'utf8').toString('base64');
 
-        res.cookie('ARZID', `${newCookie}`, { 
-            expires: new Date(Date.now() + 900000),
-                httpOnly: true,
-                secure: false,
-                sameSite: 'None'
-            })
+        res.cookie('ARZID', `${newCookie}`, {
+            expires: new Date(Date.now() + 900000), // 15 minutes
+            httpOnly: true,
+            secure: false, // Set to true in production with HTTPS
+            sameSite: 'None', // Required for cross-origin cookies
+        });
 
         res.status(200).send({
             ok: true,
@@ -159,6 +159,11 @@ router.get('/auth/check', async (req, res) => {
     } else {
         return res.status(401).send({ authenticated: false });
     }
+});
+
+router.get('/test-cookie', (req, res) => {
+    console.log('Cookies:', req.cookies); // Log the cookies
+    res.send({ cookies: req.cookies });
 });
 
 module.exports = router;
