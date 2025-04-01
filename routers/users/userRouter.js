@@ -139,7 +139,7 @@ router.post('/login', async (req, res) => {
             ok: true,
             message: 'Login successful',
             cookie: 'ARZID' + newCookie,
-            secure: true,
+            secure: false,
             sameSite: 'None'
         });     
     } catch (error) {
