@@ -49,7 +49,7 @@ const createOrder = async (username) => {
             body: {
                 intent: "CAPTURE",
                 application_context: {
-                    return_url: returnUrl || `${BASE_URL}/multas`,
+                    return_url: `${frontendURL}/multas`,
                     cancel_url: `${frontendURL}/multas`,
                     user_action: "PAY_NOW",
                     brand_name: "Library Fine System",
