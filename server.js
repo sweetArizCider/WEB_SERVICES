@@ -8,22 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 // Middleware
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (!origin || server.corsOptions.origin.includes(origin)) {
-            callback(null, true); 
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: server.corsOptions.methods,
-    preflightContinue: server.corsOptions.preflightContinue,
-    optionsSuccessStatus: server.corsOptions.optionsSuccessStatus,
-    allowedHeaders: server.corsOptions.allowedHeaders,
-    credentials: true
-};
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors(server.corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
